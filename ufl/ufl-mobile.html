@@ -26,7 +26,7 @@
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--body)}
 button{cursor:pointer;border:none;background:none;color:inherit;font-family:inherit;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 #portrait-overlay{display:none;position:absolute;inset:0;background:#000;z-index:9999;align-items:center;justify-content:center;font-size:16px;letter-spacing:2px;color:#fff;font-family:monospace;pointer-events:none}
-#portrait-overlay.on{display:flex;pointer-events:none}
+#portrait-overlay.on{display:flex;pointer-events:auto}
 .app-root{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden}
 .screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}
 .screen.active{display:flex}
@@ -142,7 +142,7 @@ button{cursor:pointer;border:none;background:none;color:inherit;font-family:inhe
 .ev-side-name{font-family:var(--head);font-size:12px;font-weight:600;text-align:center;margin-top:8px}
 .ev-side-tag{margin-top:auto;width:100%;padding:10px 0;text-align:center;font-family:var(--head);font-weight:700;font-size:13px;color:#fff;border-radius:4px}
 .ev-main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
-.ev-divider{position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(255,255,255,0.15)}
+.ev-divider{position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(255,255,255,0.15);pointer-events:none}
 .ev-list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:8px 0}
 .ev-item{padding:8px 10px;display:flex;align-items:stretch}
 .ev-bubble{border-radius:10px;padding:7px 12px;display:flex;gap:6px;align-items:center}
@@ -152,6 +152,35 @@ button{cursor:pointer;border:none;background:none;color:inherit;font-family:inhe
 .ev-ts{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,0.7);flex-shrink:0}
 .ev-hint{font-family:var(--body);font-size:12px;color:#fff;font-weight:500}
 .ev-btm{padding:12px;display:flex;justify-content:center;flex-shrink:0}
+
+/* ── Resume banner (setup) ── */
+.resume-banner{position:absolute;top:0;left:0;right:0;z-index:50;display:none;align-items:center;gap:10px;padding:10px 14px;background:linear-gradient(90deg,#0a39d4,#0a2a8a);box-shadow:0 2px 12px rgba(0,0,0,0.5)}
+.resume-banner.on{display:flex}
+.resume-banner .rb-text{flex:1;font-family:var(--head);font-weight:700;font-size:13px;color:#fff;letter-spacing:.5px}
+.resume-banner button{padding:8px 14px;border-radius:20px;font-family:var(--body);font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+.resume-banner .rb-yes{background:#fff;color:#0a2a8a}
+.resume-banner .rb-no{background:rgba(255,255,255,0.15);color:#fff}
+
+/* ── SCREEN 5: MATCH LIBRARY ── */
+#s-library{background:linear-gradient(135deg,#07080c 60%,#0a0e18)}
+.lib-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
+.lib-title{flex:1;font-family:var(--head);font-weight:800;font-size:16px;letter-spacing:2px;color:#fff;text-align:center}
+.lib-back,.lib-clear{padding:8px 12px;border-radius:18px;font-family:var(--body);font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+.lib-back{background:#444;color:#fff}
+.lib-clear{background:#a82e15;color:#fff}
+.lib-usage{padding:8px 16px;font-family:var(--mono);font-size:11px;color:var(--muted);flex-shrink:0}
+.lib-list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px 12px 20px}
+.lib-empty{padding:40px 0;text-align:center;color:var(--muted);font-family:var(--head);letter-spacing:1px}
+.lib-row{display:flex;align-items:center;gap:10px;padding:12px;margin-bottom:8px;background:var(--s2);border:1px solid var(--border);border-radius:10px}
+.lib-row-main{flex:1;min-width:0}
+.lib-row-names{font-family:var(--head);font-weight:700;font-size:15px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lib-vs{color:var(--muted);font-weight:600;font-size:12px}
+.lib-row-meta{margin-top:3px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.lib-status.live{color:var(--green)}
+.lib-status.done{color:var(--muted)}
+.lib-load{padding:10px 14px;border-radius:18px;background:#0a39d4;color:#fff;font-family:var(--body);font-weight:700;font-size:12px;letter-spacing:1px;flex-shrink:0}
+.lib-del{padding:10px 12px;border-radius:18px;background:rgba(168,46,21,0.25);font-size:16px;flex-shrink:0}
+.lib-row button:active{transform:scale(0.94)}
 
 /* ── SCREEN 4: COUNTDOWN ── */
 #s-countdown{align-items:center;justify-content:center;background:rgba(0,0,0,0.88)}
@@ -211,6 +240,11 @@ button{cursor:pointer;border:none;background:none;color:inherit;font-family:inhe
 
 <!-- ── SCREEN 0: SETUP ── -->
 <div id="s-setup" class="screen active">
+  <div class="resume-banner" id="resume-banner">
+    <div class="rb-text" id="resume-text">Resume match?</div>
+    <button class="rb-yes" id="resume-yes">Resume</button>
+    <button class="rb-no" id="resume-no">Dismiss</button>
+  </div>
   <div class="setup-col left">
     <div class="setup-avatar" id="av-l">🤺</div>
     <input class="setup-name-input" id="name-l" type="text" maxlength="18" placeholder="LEFT FENCER" autocomplete="off" spellcheck="false">
@@ -253,6 +287,7 @@ button{cursor:pointer;border:none;background:none;color:inherit;font-family:inhe
     </div>
     <div class="setup-btns">
       <button class="rnd rnd-start" id="btn-start">▶ START MATCH</button>
+      <button class="rnd rnd-end" id="btn-library">📚 LIBRARY</button>
       <button class="rnd rnd-end" id="btn-load">⬆ LOAD JSON</button>
       <input type="file" id="file-input" accept=".json" style="display:none">
     </div>
@@ -393,6 +428,7 @@ button{cursor:pointer;border:none;background:none;color:inherit;font-family:inhe
     <button class="rnd rnd-grey" id="res-simul"  style="min-width:120px">⚖️ SIMULTANEOUS</button>
     <button class="rnd rnd-grey" id="res-events" style="min-width:120px">📋 EVENTS</button>
     <button class="rnd rnd-red"  id="res-end"    style="min-width:120px">⏹ END MATCH</button>
+    <button class="rnd rnd-blue" id="res-new"    style="min-width:120px;display:none">🆕 NEW MATCH</button>
   </div>
 </div>
 
@@ -423,6 +459,17 @@ button{cursor:pointer;border:none;background:none;color:inherit;font-family:inhe
   <div class="cd-sub">GET READY</div>
 </div>
 
+<!-- ── SCREEN 5: MATCH LIBRARY ── -->
+<div id="s-library" class="screen">
+  <div class="lib-head">
+    <button class="lib-back" id="lib-back">← BACK</button>
+    <div class="lib-title">MATCH LIBRARY</div>
+    <button class="lib-clear" id="lib-clear">CLEAR ALL</button>
+  </div>
+  <div class="lib-usage" id="lib-usage"></div>
+  <div class="lib-list" id="lib-list"></div>
+</div>
+
 <!-- ── DRAWER ── -->
 <div class="drawer-backdrop" id="drawer-backdrop"></div>
 <div class="drawer" id="drawer">
@@ -446,7 +493,11 @@ button{cursor:pointer;border:none;background:none;color:inherit;font-family:inhe
           <button class="exp-btn" id="exp-csv">⬇ Export CSV</button>
           <button class="exp-btn" id="exp-txt">⬇ Export TXT</button>
           <button class="exp-btn" id="exp-video" style="display:none">⬇ Export Video</button>
+          <button class="exp-btn" id="imp-video">⬆ Import Video</button>
+          <button class="exp-btn" id="exp-overlay" style="display:none">⬇ Export Overlay</button>
         </div>
+        <div id="overlay-status" style="font-family:var(--mono);font-size:11px;color:var(--muted);padding-top:8px"></div>
+        <input type="file" id="video-input" accept="video/*" style="display:none">
       </div>
     </div>
     <!-- AI panel -->
@@ -571,8 +622,125 @@ const PIE_SECTORS = {
 let M = null;
 let PS = {left:null, right:null}; // pending pie selection {menuType, side}
 
+// ── Persistence (localStorage) ─────────────────────────────────────────────
+// Per-match snapshots live under `ufl:match:{id}`; a lightweight `ufl:index`
+// array drives the library list and resume check without parsing every match.
+// Blobs/video are NEVER stored here — only the serialisable `M` snapshot.
+const LS_INDEX  = 'ufl:index';
+const LS_CLIENT = 'ufl:clientId';
+const LS_MATCH  = id => `ufl:match:${id}`;
+const LS_CAP    = 50;  // keep last N matches, FIFO prune
+// Piste zone for each event, predicted later by an AI pass over the video;
+// `null` until then. Identity is the UUID — zones never derive from it.
+const PISTE_ZONES = ['L-END', 'L-MID', 'R-MID', 'R-END'];
+
+// Globally-unique id (cloud-safe). Falls back for browsers lacking randomUUID.
+function genId() {
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  const b = crypto.getRandomValues(new Uint8Array(16));
+  b[6] = (b[6] & 0x0f) | 0x40;
+  b[8] = (b[8] & 0x3f) | 0x80;
+  const h = [...b].map(x => x.toString(16).padStart(2, '0'));
+  return `${h.slice(0,4).join('')}-${h.slice(4,6).join('')}-${h.slice(6,8).join('')}-${h.slice(8,10).join('')}-${h.slice(10,16).join('')}`;
+}
+
+// One stable id per install — stamps every match so cloud sync (UX-4) can
+// namespace/dedupe by device without a later migration.
+function getClientId() {
+  let id = null;
+  try { id = localStorage.getItem(LS_CLIENT); } catch (_) { return null; }
+  if (!id) {
+    id = genId();
+    try { localStorage.setItem(LS_CLIENT, id); } catch (_) { /* storage disabled */ }
+  }
+  return id;
+}
+
+function readIndex() {
+  try { return JSON.parse(localStorage.getItem(LS_INDEX)) || []; }
+  catch (_) { return []; }
+}
+
+function writeIndex(idx) {
+  try { localStorage.setItem(LS_INDEX, JSON.stringify(idx)); }
+  catch (err) { console.warn('UFL: could not write match index', err); }
+}
+
+function indexEntry(m) {
+  return { id: m.matchId, nameL: m.nameL, nameR: m.nameR,
+           scoreL: m.scoreL, scoreR: m.scoreR, weapon: m.weapon,
+           finished: m.finished, createdAt: m.createdAt, savedAt: m.savedAt };
+}
+
+// Evict one match (prefer an older finished one) to reclaim space; returns
+// false when there is nothing else to drop. Never evicts the live match.
+function evictOldest(excludeId) {
+  const idx = readIndex().filter(e => e.id !== excludeId);
+  const victim = [...idx].reverse().find(e => e.finished) || idx[idx.length - 1];
+  if (!victim) return false;
+  try { localStorage.removeItem(LS_MATCH(victim.id)); } catch (_) {}
+  writeIndex(readIndex().filter(e => e.id !== victim.id));
+  return true;
+}
+
+function saveMatch() {
+  if (!M || !M.matchId) return;
+  M.savedAt = Date.now();
+  const payload = JSON.stringify(M);
+  try {
+    localStorage.setItem(LS_MATCH(M.matchId), payload);
+  } catch (err) {
+    // Quota hit — drop the oldest match and retry once; never break labelling.
+    if (evictOldest(M.matchId)) {
+      try { localStorage.setItem(LS_MATCH(M.matchId), payload); }
+      catch (e2) { console.warn('UFL: match autosave failed (storage full)', e2); return; }
+    } else { console.warn('UFL: match autosave failed (storage full)', err); return; }
+  }
+  let idx = readIndex().filter(e => e.id !== M.matchId);
+  idx.unshift(indexEntry(M));
+  while (idx.length > LS_CAP) {
+    const drop = idx.pop();
+    try { localStorage.removeItem(LS_MATCH(drop.id)); } catch (_) {}
+  }
+  writeIndex(idx);
+}
+
+let _saveTimer = null;
+function scheduleSave() {
+  if (_saveTimer) return;
+  _saveTimer = setTimeout(() => { _saveTimer = null; saveMatch(); }, 250);
+}
+
+function deleteMatch(id) {
+  try { localStorage.removeItem(LS_MATCH(id)); } catch (_) {}
+  writeIndex(readIndex().filter(e => e.id !== id));
+}
+
+function clearAllMatches() {
+  readIndex().forEach(e => { try { localStorage.removeItem(LS_MATCH(e.id)); } catch (_) {} });
+  writeIndex([]);
+}
+
+function loadMatch(id) {
+  try { return JSON.parse(localStorage.getItem(LS_MATCH(id))) || null; }
+  catch (_) { return null; }
+}
+
+// Approx bytes used by stored match snapshots (for the library usage readout).
+function storageBytes() {
+  return readIndex().reduce((n, e) => {
+    const v = localStorage.getItem(LS_MATCH(e.id));
+    return n + (v ? v.length : 0);
+  }, 0);
+}
+
 function newMatchState(cfg) {
+  const now = Date.now();
   return {
+    matchId: genId(),
+    clientId: getClientId(),
+    createdAt: now,
+    savedAt: now,
     nameL: cfg.nameL || 'LEFT',
     nameR: cfg.nameR || 'RIGHT',
     weapon: cfg.weapon || 'foil',
@@ -651,6 +819,7 @@ function endPeriod() {
   if (M.period < M.totalPeriods) {
     M.period++;
     M.timerSec = M.periodDuration;
+    scheduleSave();
     showResultScreen('END OF PERIOD ' + (M.period - 1));
   } else {
     finishMatch();
@@ -661,10 +830,11 @@ function finishMatch() {
   stopTimer();
   if (_camState === 'recording') {
     _autoStop = true;
-    _mediaRec.stop();
-    _camStream.getTracks().forEach(t => t.stop());
+    if (_mediaRec) _mediaRec.stop();
+    if (_camStream) _camStream.getTracks().forEach(t => t.stop());
   }
   M.finished = true;
+  saveMatch();
   const winner = M.scoreL > M.scoreR ? M.nameL : M.scoreR > M.scoreL ? M.nameR : 'DRAW';
   showResultScreen(winner === 'DRAW' ? 'DRAW' : winner + ' WINS!');
   document.getElementById('res-resume').style.display = 'none';
@@ -693,6 +863,7 @@ function clickStart() {
   const nameR = document.getElementById('name-r').value.trim() || 'RIGHT';
   _recBlob = null;
   M = newMatchState({ nameL, nameR, ...CFG });
+  saveMatch();  // persist immediately so an interrupted match is resumable
   refreshHUD();
   document.getElementById('hud-name-l').textContent = nameL;
   document.getElementById('hud-name-r').textContent = nameR;
@@ -724,12 +895,15 @@ function showResultScreen(title) {
     `H:${M.events.filter(e=>e.side==='R'&&e.isHit).length} ` +
     `Cards:${M.cardsR.length}`;
   document.getElementById('res-resume').style.display = M.finished ? 'none' : 'block';
+  document.getElementById('res-end').style.display    = M.finished ? 'none' : 'block';
+  document.getElementById('res-new').style.display    = M.finished ? 'block' : 'none';
   showScreen('s-result');
 }
 
 document.getElementById('pause-btn').addEventListener('touchend', e => {
   e.preventDefault();
   stopTimer();
+  scheduleSave();
   showResultScreen('MATCH PAUSED');
 }, {passive:false});
 
@@ -749,7 +923,8 @@ document.getElementById('res-simul').addEventListener('touchend', e => {
   e.preventDefault();
   if (M && !M.finished) {
     const ts = M.periodDuration - M.timerSec;
-    M.events.push({ ts, side:'C', actionId:124, label:'Simultaneous', emoji:'⚖️', isHit:false, period:M.period });
+    M.events.push({ ts, side:'C', actionId:124, label:'Simultaneous', emoji:'⚖️', isHit:false, piste:null, period:M.period });
+    scheduleSave();
   }
   showScreen('s-match');
   if (M && !M.finished) startTimer();
@@ -767,9 +942,20 @@ document.getElementById('res-end').addEventListener('touchend', e => {
   finishMatch();
 }, {passive:false});
 
+document.getElementById('res-new').addEventListener('touchend', e => {
+  e.preventDefault();
+  resetCamUI();
+  _recBlob = null;
+  M = null;
+  document.getElementById('fab-btn').style.display = 'none';
+  checkResume();
+  showScreen('s-setup');
+}, {passive:false});
+
 document.getElementById('ev-back').addEventListener('touchend', e => {
   e.preventDefault();
   showScreen(M && M.finished ? 's-result' : 's-match');
+  if (M && !M.finished) startTimer();
 }, {passive:false});
 
 // ── SVG Radial menu ───────────────────────────────────────────────────────────
@@ -1056,7 +1242,10 @@ function closePie(side){
   wrap.addEventListener('pointerdown',_radPtrDown,{passive:false});
   wrap.addEventListener('pointermove',_radPtrMove,{passive:false});
   wrap.addEventListener('pointerup',  _radPtrUp,  {passive:false});
-  wrap.addEventListener('pointercancel',()=>{if(_radEls.length)_radSetHov(null);},{passive:false});
+  wrap.addEventListener('pointercancel',e=>{
+    if(_radEls.length)_radSetHov(null);
+    try{wrap.releasePointerCapture(e.pointerId);}catch{}
+  },{passive:false});
   document.getElementById('radial-cancel').addEventListener('touchend',e=>{
     e.preventDefault(); if(_radSide!==null)closePie(_radSide);
   },{passive:false});
@@ -1110,7 +1299,7 @@ function hideConfirm() {
   // Plain confirm (cards / ref actions)
   document.getElementById(`conf-${s}-yes`).addEventListener('touchend', e => {
     e.preventDefault();
-    if (_pendingAction) doConfirm(_pendingAction.side, _pendingAction.actionId, _pendingAction.actionId > 10 ? false : false);
+    if (_pendingAction) doConfirm(_pendingAction.side, _pendingAction.actionId);
     hideConfirm();
   }, {passive:false});
   // Cancel
@@ -1151,8 +1340,10 @@ function doConfirm(side, actionId, isHit) {
                       label: action ? action.label : '?',
                       emoji: action ? action.emoji  : '?',
                       isHit: scored,
+                      piste: null,  // AI-predicted later; one of PISTE_ZONES
                       period: M.period };
   M.events.push(ev);
+  scheduleSave();
   // Stamp for overlay pill (shown on recording canvas for 3 s)
   _lastAction   = { emoji: ev.emoji, label: ev.label, side: ev.side, isHit: scored };
   _lastActionAt = performance.now();
@@ -1217,6 +1408,8 @@ let _recCtx       = null;
 let _rafId        = null;   // requestAnimationFrame handle
 let _lastAction   = null;   // {emoji,label,side} — shown on canvas for 3 s
 let _lastActionAt = 0;      // performance.now() timestamp
+let _importVideoFile = null;
+let _isRenderingOverlay = false;
 
 function pickMime() {
   const candidates = [
@@ -1374,6 +1567,52 @@ function drawHUDOverlay(ctx, W, H) {
   }
 }
 
+function drawActionPill(ctx, W, H, ev, alpha) {
+  if (!ev) return;
+  const fSize = Math.max(18, Math.round(H * 0.033));
+  const txt = ev.emoji + '  ' + ev.label + (ev.isHit ? '' : '  [OFF TARGET]');
+  ctx.save();
+  ctx.font = `bold ${fSize}px sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const tw = ctx.measureText(txt).width;
+  const pw = Math.min(W - 28, tw + 44);
+  const ph = fSize * 2.2;
+  const py = H * 0.82;
+
+  ctx.globalAlpha = alpha * 0.88;
+  ctx.fillStyle = '#07080c';
+  rrect(ctx, W / 2 - pw / 2, py - ph / 2, pw, ph, ph / 2);
+  ctx.fill();
+
+  const sideCol = ev.side === 'L' ? '#00c7ff' : ev.side === 'R' ? '#e62600' : '#f5c842';
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = sideCol;
+  rrect(ctx, W / 2 - pw / 2, py - ph / 2, 5, ph, 3);
+  ctx.fill();
+
+  ctx.fillStyle = '#fff';
+  ctx.fillText(txt, W / 2, py, pw - 30);
+  ctx.restore();
+}
+
+function overlayEventTime(ev) {
+  const period = Math.max(1, Number(ev.period) || 1);
+  return (period - 1) * (Number(M.periodDuration) || 0) + (Number(ev.ts) || 0);
+}
+
+function drawImportedOverlay(ctx, W, H, currentTime) {
+  if (!M || !M.events) return;
+  const visible = M.events
+    .map(ev => ({ ev, t: overlayEventTime(ev) }))
+    .filter(x => currentTime >= x.t && currentTime < x.t + 3)
+    .pop();
+  if (!visible) return;
+  const elapsed = currentTime - visible.t;
+  const alpha = elapsed < 2.4 ? 1 : Math.max(0, 1 - (elapsed - 2.4) / 0.6);
+  drawActionPill(ctx, W, H, visible.ev, alpha);
+}
+
 async function toggleCamera() {
   const btn     = document.getElementById('cam-btn');
   const preview = document.getElementById('cam-preview');
@@ -1484,12 +1723,148 @@ document.getElementById('cam-btn').addEventListener('touchend', e => {
 }, {passive:false});
 
 // ── Exports ───────────────────────────────────────────────────────────────────
+function safeFilePart(s) {
+  return String(s || 'match').replace(/[^\w.-]+/g, '-').replace(/^-+|-+$/g, '') || 'match';
+}
+
+function _downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+}
+
+async function shareOrDownload(blob, filename) {
+  const file = new File([blob], filename, { type: blob.type || 'application/octet-stream' });
+  if (navigator.share && (!navigator.canShare || navigator.canShare({ files: [file] }))) {
+    try { await navigator.share({ files: [file], title: filename }); return; }
+    catch (err) { if (err && err.name === 'AbortError') return; }
+  }
+  _downloadBlob(blob, filename);
+}
+
+function overlayFilename(source, ext) {
+  return `match-${safeFilePart(M.nameL)}-vs-${safeFilePart(M.nameR)}-${source}-${Date.now()}.${ext}`;
+}
+
+function setOverlayStatus(msg, busy) {
+  const status = document.getElementById('overlay-status');
+  const importBtn = document.getElementById('imp-video');
+  const exportBtn = document.getElementById('exp-overlay');
+  if (status) status.textContent = msg || '';
+  if (importBtn) importBtn.disabled = !!busy;
+  if (exportBtn) {
+    exportBtn.disabled = !!busy;
+    exportBtn.textContent = busy ? 'Rendering…' : '⬇ Export Overlay';
+  }
+}
+
+function videoDimensions(video) {
+  const srcW = video.videoWidth || 1280;
+  const srcH = video.videoHeight || 720;
+  const maxEdge = 1280;
+  const scale = Math.min(1, maxEdge / Math.max(srcW, srcH));
+  return {
+    width: Math.max(2, Math.round(srcW * scale)),
+    height: Math.max(2, Math.round(srcH * scale)),
+  };
+}
+
+function waitForEvent(target, name) {
+  return new Promise((resolve, reject) => {
+    target.addEventListener(name, resolve, { once: true });
+    target.addEventListener('error', () => reject(new Error('Could not read the imported video')), { once: true });
+  });
+}
+
+async function renderOverlayVideo(file, source) {
+  if (!M) throw new Error('No match loaded');
+  if (!file) throw new Error('Import a video first');
+  if (typeof MediaRecorder === 'undefined') throw new Error('Overlay export is not supported in this browser');
+
+  const video = document.createElement('video');
+  const url = URL.createObjectURL(file);
+  video.src = url;
+  video.playsInline = true;
+  video.preload = 'auto';
+  video.muted = true;
+  video.style.cssText = 'position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;pointer-events:none';
+  document.body.appendChild(video);
+
+  try {
+    await waitForEvent(video, 'loadedmetadata');
+    const dim = videoDimensions(video);
+    const canvas = document.createElement('canvas');
+    canvas.width = dim.width;
+    canvas.height = dim.height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx || !canvas.captureStream) throw new Error('Canvas video capture is not supported in this browser');
+
+    const stream = canvas.captureStream(30);
+    const videoCapture = video.captureStream ? video.captureStream() :
+                         video.mozCaptureStream ? video.mozCaptureStream() : null;
+    let audioPreserved = false;
+    if (videoCapture) {
+      videoCapture.getAudioTracks().forEach(track => {
+        stream.addTrack(track);
+        audioPreserved = true;
+      });
+    }
+
+    const mimeType = pickMime();
+    const chunks = [];
+    const recorder = mimeType
+      ? new MediaRecorder(stream, { mimeType })
+      : new MediaRecorder(stream);
+    recorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+
+    const stopped = new Promise((resolve, reject) => {
+      recorder.onstop = resolve;
+      recorder.onerror = () => reject(new Error('Overlay recording failed'));
+    });
+
+    const drawFrame = () => {
+      if (video.ended || video.paused) return;
+      ctx.drawImage(video, 0, 0, dim.width, dim.height);
+      drawImportedOverlay(ctx, dim.width, dim.height, video.currentTime);
+      requestAnimationFrame(drawFrame);
+    };
+
+    recorder.start(1000);
+    await video.play();
+    drawFrame();
+    await waitForEvent(video, 'ended');
+    recorder.stop();
+    await stopped;
+
+    const type = recorder.mimeType || mimeType || 'video/webm';
+    const blob = new Blob(chunks, { type });
+    if (!blob.size) throw new Error('No overlay video data was produced');
+    const ext = type.startsWith('video/mp4') ? 'mp4' : 'webm';
+    if (!audioPreserved) setOverlayStatus('Overlay rendered. Source audio could not be preserved on this browser.', false);
+    return {
+      blob,
+      filename: overlayFilename(source, ext),
+      mimeType: type,
+      matchId: M.matchId || null,
+      createdAt: Date.now(),
+      duration: video.duration || null,
+      source,
+    };
+  } finally {
+    video.pause();
+    document.body.removeChild(video);
+    URL.revokeObjectURL(url);
+  }
+}
+
 function exportJSON() {
   const blob = new Blob([JSON.stringify(M, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `match-${M.nameL}-vs-${M.nameR}-${Date.now()}.json`;
-  a.click();
+  shareOrDownload(blob, overlayFilename('events', 'json'));
 }
 
 function exportCSV() {
@@ -1498,10 +1873,7 @@ function exportCSV() {
     rows.push([ev.ts,ev.side,ev.actionId,`"${ev.label}"`,ev.isHit,ev.period].join(','));
   });
   const blob = new Blob([rows.join('\n')], {type:'text/csv'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `match-${M.nameL}-vs-${M.nameR}-${Date.now()}.csv`;
-  a.click();
+  shareOrDownload(blob, overlayFilename('events', 'csv'));
 }
 
 function exportTXT() {
@@ -1512,30 +1884,59 @@ function exportTXT() {
     txt += `[${fmtTime(ev.ts)}] P${ev.period}  ${ev.emoji} ${ev.side === 'L' ? M.nameL : ev.side === 'R' ? M.nameR : 'REF'}: ${ev.label}\n`;
   });
   const blob = new Blob([txt], {type:'text/plain'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `match-${M.nameL}-vs-${M.nameR}-${Date.now()}.txt`;
-  a.click();
+  shareOrDownload(blob, overlayFilename('report', 'txt'));
 }
 
 function exportVideo() {
   if (!_recBlob) return;
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(_recBlob);
-  a.download = `match-${M.nameL}-vs-${M.nameR}-${Date.now()}.${camExt()}`;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+  shareOrDownload(_recBlob, overlayFilename('recorded', camExt()));
+}
+
+async function exportImportedOverlay() {
+  if (_isRenderingOverlay) return;
+  _isRenderingOverlay = true;
+  setOverlayStatus('Rendering overlay video. Keep this screen open.', true);
+  try {
+    const rendered = await renderOverlayVideo(_importVideoFile, 'imported');
+    if (document.getElementById('overlay-status').textContent === 'Rendering overlay video. Keep this screen open.') {
+      setOverlayStatus('Overlay rendered.', false);
+    }
+    await shareOrDownload(rendered.blob, rendered.filename);
+  } catch (err) {
+    setOverlayStatus(err && err.message ? err.message : 'Overlay export failed', false);
+  } finally {
+    _isRenderingOverlay = false;
+    const status = document.getElementById('overlay-status');
+    if (status && status.textContent === 'Rendering overlay video. Keep this screen open.') {
+      setOverlayStatus('', false);
+    } else {
+      setOverlayStatus(status ? status.textContent : '', false);
+    }
+  }
 }
 
 document.getElementById('exp-json').addEventListener('touchend', e=>{ e.preventDefault(); exportJSON(); },{passive:false});
 document.getElementById('exp-csv').addEventListener('touchend',  e=>{ e.preventDefault(); exportCSV();  },{passive:false});
 document.getElementById('exp-txt').addEventListener('touchend',  e=>{ e.preventDefault(); exportTXT();  },{passive:false});
 document.getElementById('exp-video').addEventListener('touchend',e=>{ e.preventDefault(); exportVideo();},{passive:false});
+document.getElementById('imp-video').addEventListener('touchend', e=>{
+  e.preventDefault(); document.getElementById('video-input').click();
+},{passive:false});
+document.getElementById('exp-overlay').addEventListener('touchend', e=>{
+  e.preventDefault(); exportImportedOverlay();
+},{passive:false});
+document.getElementById('video-input').addEventListener('change', evt => {
+  const file = evt.target.files[0]; if (!file) return;
+  _importVideoFile = file;
+  document.getElementById('exp-overlay').style.display = 'inline-block';
+  setOverlayStatus(`${file.name} ready. Imported video starts at bout 0:00.`, false);
+});
 
 // ── Drawer ────────────────────────────────────────────────────────────────────
 function openDrawer() {
   buildReport();
   document.getElementById('exp-video').style.display = _recBlob ? 'inline-block' : 'none';
+  document.getElementById('exp-overlay').style.display = _importVideoFile ? 'inline-block' : 'none';
   document.getElementById('drawer').classList.add('on');
   document.getElementById('drawer-backdrop').classList.add('on');
 }
@@ -1565,7 +1966,7 @@ function buildReport() {
     `<div class="rpt-row"><span class="rpt-k">${M.nameL}</span><span class="rpt-v">${M.scoreL} pts, ${hitsL} hits</span></div>` +
     `<div class="rpt-row"><span class="rpt-k">${M.nameR}</span><span class="rpt-v">${M.scoreR} pts, ${hitsR} hits</span></div>` +
     `<div class="rpt-row"><span class="rpt-k">Total events</span><span class="rpt-v">${M.events.length}</span></div>` +
-    `<div class="rpt-row"><span class="rpt-k">Duration</span><span class="rpt-v">${fmtTime(M.periodDuration - M.timerSec)}</span></div>`;
+    `<div class="rpt-row"><span class="rpt-k">Duration</span><span class="rpt-v">${fmtTime((M.period - 1) * M.periodDuration + (M.periodDuration - M.timerSec))}</span></div>`;
 
   // AI panel: confidence stubs
   const aiList = document.getElementById('ai-list');
@@ -1726,6 +2127,11 @@ document.getElementById('file-input').addEventListener('change', evt => {
   reader.onload = ev => {
     try {
       M = JSON.parse(ev.target.result);
+      // Backfill identity for older exports so the match joins the library.
+      if (!M.matchId)   M.matchId   = genId();
+      if (!M.clientId)  M.clientId  = getClientId();
+      if (!M.createdAt) M.createdAt = Date.now();
+      saveMatch();
       refreshHUD();
       document.getElementById('fab-btn').style.display = 'flex';
       openDrawer();
@@ -1734,6 +2140,116 @@ document.getElementById('file-input').addEventListener('change', evt => {
   reader.readAsText(file);
 });
 
+// ── Match library + resume ─────────────────────────────────────────────────
+function esc(s) {
+  return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+
+function fmtDate(ts) {
+  if (!ts) return '';
+  const d = new Date(ts);
+  return d.toLocaleDateString(undefined, {month:'short', day:'numeric'}) + ' ' +
+         d.toLocaleTimeString(undefined, {hour:'2-digit', minute:'2-digit'});
+}
+
+// Restore a stored match: finished → result/export view, otherwise → resumable.
+function enterLoadedMatch(m) {
+  if (!m) return;
+  if (_timerInterval) { clearInterval(_timerInterval); _timerInterval = null; }
+  M = m;
+  _recBlob = null;
+  refreshHUD();
+  document.getElementById('fab-btn').style.display = 'flex';
+  if (M.finished) {
+    const winner = M.scoreL > M.scoreR ? M.nameL : M.scoreR > M.scoreL ? M.nameR : 'DRAW';
+    showResultScreen(winner === 'DRAW' ? 'DRAW' : winner + ' WINS!');
+  } else {
+    showResultScreen('MATCH PAUSED');
+  }
+}
+
+function renderLibrary() {
+  const idx = readIndex();
+  const kb  = Math.round(storageBytes() / 1024);
+  document.getElementById('lib-usage').textContent =
+    `${idx.length} match${idx.length === 1 ? '' : 'es'} · ~${kb} KB · keeps last ${LS_CAP}`;
+  const list = document.getElementById('lib-list');
+  list.innerHTML = '';
+  if (!idx.length) {
+    const empty = document.createElement('div');
+    empty.className = 'lib-empty';
+    empty.textContent = 'No saved matches yet.';
+    list.appendChild(empty);
+    return;
+  }
+  idx.forEach(e => {
+    const row = document.createElement('div');
+    row.className = 'lib-row';
+    const status = e.finished ? 'DONE' : 'LIVE';
+    row.innerHTML =
+      `<div class="lib-row-main">
+         <div class="lib-row-names">${esc(e.nameL)} <span class="lib-vs">vs</span> ${esc(e.nameR)}</div>
+         <div class="lib-row-meta">${e.scoreL} – ${e.scoreR} · ${esc((e.weapon||'foil').toUpperCase())} · ${fmtDate(e.createdAt || e.savedAt)} · <span class="lib-status ${e.finished?'done':'live'}">${status}</span></div>
+       </div>`;
+    const load = document.createElement('button');
+    load.className = 'lib-load';
+    load.textContent = 'LOAD';
+    load.addEventListener('touchend', ev => {
+      ev.preventDefault(); enterLoadedMatch(loadMatch(e.id));
+    }, {passive:false});
+    const del = document.createElement('button');
+    del.className = 'lib-del';
+    del.textContent = '🗑';
+    del.setAttribute('aria-label', 'Delete match');
+    del.addEventListener('touchend', ev => {
+      ev.preventDefault();
+      if (confirm(`Delete ${e.nameL} vs ${e.nameR}?`)) { deleteMatch(e.id); renderLibrary(); }
+    }, {passive:false});
+    row.appendChild(load);
+    row.appendChild(del);
+    list.appendChild(row);
+  });
+}
+
+// Show a resume prompt on setup when an unfinished match is stored.
+let _resumeDismissedId = null;
+function checkResume() {
+  const banner = document.getElementById('resume-banner');
+  const m = readIndex().find(e => !e.finished);
+  if (!m || m.id === _resumeDismissedId) { banner.classList.remove('on'); return; }
+  document.getElementById('resume-text').textContent = `Resume ${m.nameL} vs ${m.nameR}?`;
+  banner.dataset.id = m.id;
+  banner.classList.add('on');
+}
+
+document.getElementById('btn-library').addEventListener('touchend', e => {
+  e.preventDefault(); renderLibrary(); showScreen('s-library');
+}, {passive:false});
+
+document.getElementById('lib-back').addEventListener('touchend', e => {
+  e.preventDefault(); checkResume(); showScreen('s-setup');
+}, {passive:false});
+
+document.getElementById('lib-clear').addEventListener('touchend', e => {
+  e.preventDefault();
+  if (confirm('Delete ALL saved matches?')) { clearAllMatches(); renderLibrary(); }
+}, {passive:false});
+
+document.getElementById('resume-yes').addEventListener('touchend', e => {
+  e.preventDefault();
+  const banner = document.getElementById('resume-banner');
+  const m = loadMatch(banner.dataset.id);
+  banner.classList.remove('on');
+  enterLoadedMatch(m);
+}, {passive:false});
+
+document.getElementById('resume-no').addEventListener('touchend', e => {
+  e.preventDefault();
+  const banner = document.getElementById('resume-banner');
+  _resumeDismissedId = banner.dataset.id;
+  banner.classList.remove('on');
+}, {passive:false});
+
 // ── Portrait lock ─────────────────────────────────────────────────────────────
 function checkOrientation() {
   const ov = document.getElementById('portrait-overlay');
@@ -1741,6 +2257,7 @@ function checkOrientation() {
 }
 window.addEventListener('resize', checkOrientation);
 checkOrientation();
+checkResume();
 
 // ── Settings state ────────────────────────────────────────────────────────────
 const CFG = { weapon:'foil', periods:1, duration:3, format:'DE' };
